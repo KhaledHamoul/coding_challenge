@@ -1,0 +1,11 @@
+- Clone and deploy the laravel project: git clone https://riadgacem@bitbucket.org/riadgacem/coding_challenge.git
+- Checkout your branch: git checkout 'yourFirstName'
+- Install mysql if not already installed
+
+- Run command: php artisan migrate:fresh
+- Start lavel server using: php artisan serve
+
+- Execute in the command line (git for windows) the commands in seeder.sh
+        - sometimes you need to execute if error with class load: composer dump-autoload -o
+
+- Complete the TODO tasks. Detailed issue description is in: https://bitbucket.org/riadgacem/coding_challenge/issues?status=new&status=open
