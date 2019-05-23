@@ -9,6 +9,7 @@ use App\Common;
 use DB;
 use Log;
 
+//TODO complete this class
 class Entity extends Model {
     public $table = 'Entity';
 

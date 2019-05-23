@@ -19,6 +19,7 @@ class InitTable extends Migration
 
         Schema::create('Entity', function($table) {
             $table->increments('id');
+            $table->enum('fieldType', ['SUBJECT', 'VISIT', 'SAMPLE']);
             $table->timestamps();
         });
 
