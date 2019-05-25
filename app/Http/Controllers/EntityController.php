@@ -15,7 +15,7 @@ class EntityController extends APIController {
      */
     public function index(Request $request) {
         //TODO
-        return response()->json(Entity::all());
+        return response()->json(Entity::all(),200);
     }
 
     /**
@@ -38,7 +38,7 @@ class EntityController extends APIController {
                 return response()->json(
                     [ 'error' => false,
                       'entity' => Entity::create($request->all())->asCollection()
-                    ]);
+                    ],201);
             });
     }
     
