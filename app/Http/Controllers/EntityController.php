@@ -68,7 +68,7 @@ class EntityController extends APIController {
         $entity->_values()->delete();
         $entity->delete();
 
-        return response()->json([ 'error' => false ],204);
+        return response()->json([ 'error' => false ]);
     }
 
 

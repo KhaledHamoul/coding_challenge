@@ -97,4 +97,29 @@ class EntityEndpointsTest extends TestCase
         $createdEntityId = $response->original['entity']['id'];
         $this->assertEquals(2, Value::where('entity_id', $createdEntityId )->count());
     }
+
+    /**
+     * Delete entity and all its related values.
+     *
+     * @return void
+     */
+    public function testDestroy()
+    {
+        $entity = factory(Entity::class)->create();
+        $values = [
+            ["value" => "Riad", "entity_id" => $entity->id, "field_id" => 1],
+            ["value" => "30", "entity_id" => $entity->id, "field_id" => 2]
+        ];
+        Value::insert($values);
+
+        $this->assertDatabaseHas("entity", $entity->toArray());
+        $this->assertEquals(2, Value::where('entity_id', $entity->id )->count());
+
+        $response = $this->delete('/api/entities/' . $entity->id);
+        $response->assertStatus(200)
+                ->assertJson(['error' => false ]);
+
+        $this->assertDatabaseMissing("entity", $entity->toArray());
+        $this->assertEquals(0, Value::where('entity_id', $entity->id )->count());
+    }
 }
