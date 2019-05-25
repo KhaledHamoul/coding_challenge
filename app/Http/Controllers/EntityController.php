@@ -15,7 +15,11 @@ class EntityController extends APIController {
      */
     public function index(Request $request) {
         //TODO
-        return response()->json(Entity::all(),200);
+        $entities = Entity::all()->map(function($entity){
+            return $entity->includeValues();
+        });
+                                                            
+        return $entities; //response()->json($entities,200);
     }
 
     /**
@@ -23,16 +27,9 @@ class EntityController extends APIController {
      */
     public function show(Request $request, $entityId) {
         //TODO
-        $entity = self::getRecordById($entityId, Entity::class)->with('_values._field:id,name')->first();
-        $result = [
-            'id' => $entity->id,
-            'entityType' => $entity->entityType,
-            'created_at' => $entity->created_at,
-            'updated_at' => $entity->updated_at,
-        ];
-        foreach ($entity->_values as $_value) $result[$_value->_field->name] = $_value->value;
+        $entity = self::getRecordById($entityId, Entity::class)->includeValues();
         
-        return response()->json($result);
+        return response()->json($entity);
     }
 
     /**

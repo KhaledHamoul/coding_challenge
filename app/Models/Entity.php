@@ -50,5 +50,19 @@ class Entity extends Model {
         return $entity;
 
     }
+
+    public function includeValues()
+    {
+        $this->with('_values._field:id,name');
+        $entity = [
+            'id' => $this->id,
+            'entityType' => $this->entityType,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+        foreach ($this->_values as $_value) $entity[$_value->_field->name] = $_value->value;
+        
+        return $entity;
+    }
  
 }
