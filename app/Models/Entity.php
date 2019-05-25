@@ -24,6 +24,7 @@ class Entity extends Model {
 
     public function _values() {
         //TODO return the relation to values table
+        return $this->hasMany('App\Models\Value', 'entity_id');
     }
 
     /**
@@ -35,7 +36,7 @@ class Entity extends Model {
         $entity = new Entity;
         $entity->fieldType = $attributes["entityType"];
         $entity->save();
-        
+
         foreach ( $attributes as $key => $value ){
             $field = Field::where('name', $key)->first();
             if ($field){

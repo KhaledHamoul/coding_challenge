@@ -14,9 +14,15 @@ class EntityEndpointsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public static function setUpBeforeClass()
+    public function setUp(): void
     {
-        
+        parent::setUp();
+        $fields = [
+            ["name" => "sbjt_name", "label" => "Subject Name", "fieldType" => "BASIC"],
+            ["name" => "sbjt_age", "label" => "Subject Age", "fieldType" => "BASIC"],
+            ["name" => "sbjt_fake", "label" => "Subject Fake", "fieldType" => "BASIC"]
+        ];
+        Field::insert($fields);  
     }
     
     /**
@@ -54,13 +60,6 @@ class EntityEndpointsTest extends TestCase
      */
     public function testStore()
     {
-        $fields = [
-            ["name" => "sbjt_name", "label" => "Subject Name", "fieldType" => "BASIC"],
-            ["name" => "sbjt_age", "label" => "Subject Age", "fieldType" => "BASIC"],
-            ["name" => "sbjt_fake", "label" => "Subject Fake", "fieldType" => "BASIC"]
-        ];
-        Field::insert($fields);
-
         $data = [
             "entityType" => "SUBJECT", 
             "sbjt_name" => "Riad", 

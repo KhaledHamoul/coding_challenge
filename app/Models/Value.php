@@ -15,10 +15,12 @@ class Value extends Model {
 
     public function _field() {
         //TODO fill in the relation to the field
+        return $this->belongsTo('App\Models\Field', 'field_id');
     }
 
     public function _entity() {
         //TODO fill in the relation to the entity
+        return $this->belongsTo('App\Models\Entity', 'entity_id');
     }
 
 

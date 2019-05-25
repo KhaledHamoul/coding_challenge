@@ -23,8 +23,16 @@ class EntityController extends APIController {
      */
     public function show(Request $request, $entityId) {
         //TODO
-        $entity = self::getRecordById($entityId, Entity::class);
-        return response()->json($entity->asCollection());
+        $entity = self::getRecordById($entityId, Entity::class)->with('_values._field:id,name')->first();
+        $result = [
+            'id' => $entity->id,
+            'entityType' => $entity->fieldType,
+            'created_at' => $entity->created_at,
+            'updated_at' => $entity->updated_at,
+        ];
+        foreach ($entity->_values as $_value) $result[$_value->_field->name] = $_value->value;
+        
+        return response()->json($result);
     }
 
     /**
