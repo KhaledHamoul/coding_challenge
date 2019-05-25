@@ -18,9 +18,9 @@ class EntityEndpointsTest extends TestCase
     {
         parent::setUp();
         $fields = [
-            ["name" => "sbjt_name", "label" => "Subject Name", "fieldType" => "BASIC"],
-            ["name" => "sbjt_age", "label" => "Subject Age", "fieldType" => "BASIC"],
-            ["name" => "sbjt_fake", "label" => "Subject Fake", "fieldType" => "BASIC"]
+            ["id" => 1, "name" => "sbjt_name", "label" => "Subject Name", "fieldType" => "BASIC"],
+            ["id" => 2, "name" => "sbjt_age", "label" => "Subject Age", "fieldType" => "BASIC"],
+            ["id" => 3, "name" => "sbjt_fake", "label" => "Subject Fake", "fieldType" => "BASIC"]
         ];
         Field::insert($fields);  
     }
@@ -47,10 +47,20 @@ class EntityEndpointsTest extends TestCase
     public function testShow()
     {
         $entity = factory(Entity::class)->create();
+        $values = [
+            ["value" => "Riad", "entity_id" => $entity->id, "field_id" => 1],
+            ["value" => "30", "entity_id" => $entity->id, "field_id" => 2]
+        ];
+        Value::insert($values);
 
         $response = $this->get('/api/entities/' . $entity->id );
         $response->assertStatus(200)
-                ->assertJson($entity->toArray());
+                ->assertJson([
+                    "id" => $entity->id,
+                    "entityType" => $entity->entityType,
+                    "sbjt_name" => "Riad",
+                    "sbjt_age" => "30"
+                    ]);
     }
 
     /**
@@ -68,7 +78,7 @@ class EntityEndpointsTest extends TestCase
 
         $response = $this->post('/api/entities/', $data);
         $response->assertStatus(201)
-                ->assertJson(['entity' => [ "fieldType" => "SUBJECT" ] ]);
+                ->assertJson(['entity' => [ "entityType" => "SUBJECT" ] ]);
 
         $this->assertEquals(2, Value::where('entity_id', $response->original['entity']['id'] )->count());
     }

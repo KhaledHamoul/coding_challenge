@@ -16,7 +16,7 @@ class Entity extends Model {
     public $table = 'Entity';
     public $timestamps = true;
 
-    public $fillable = [ 'fieldType' ];
+    public $fillable = [ 'entityType' ];
 
     public function asCollection() {
         return collect($this->toArray());
@@ -34,7 +34,7 @@ class Entity extends Model {
     {
         //TODO
         $entity = new Entity;
-        $entity->fieldType = $attributes["entityType"];
+        $entity->entityType = $attributes["entityType"];
         $entity->save();
 
         foreach ( $attributes as $key => $value ){

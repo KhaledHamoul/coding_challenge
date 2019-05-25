@@ -26,7 +26,7 @@ class EntityController extends APIController {
         $entity = self::getRecordById($entityId, Entity::class)->with('_values._field:id,name')->first();
         $result = [
             'id' => $entity->id,
-            'entityType' => $entity->fieldType,
+            'entityType' => $entity->entityType,
             'created_at' => $entity->created_at,
             'updated_at' => $entity->updated_at,
         ];
