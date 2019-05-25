@@ -15,6 +15,7 @@ class EntityController extends APIController {
      */
     public function index(Request $request) {
         //TODO
+        return response()->json(Entity::all());
     }
 
     /**
@@ -22,6 +23,8 @@ class EntityController extends APIController {
      */
     public function show(Request $request, $entityId) {
         //TODO
+        $entity = self::getRecordById($entityId, Entity::class);
+        return response()->json($entity->asCollection());
     }
 
     /**
@@ -29,6 +32,14 @@ class EntityController extends APIController {
      */
     public function store(Request $request) {
         //TODO
+        return self::validatedRequest($request,
+            [ 'entityType' => 'required|in:SUBJECT,VISIT,SAMPLE' ],
+            function($request) {
+                return response()->json(
+                    [ 'error' => false,
+                      'entity' => Entity::create($request->all())->asCollection()
+                    ]);
+            });
     }
     
     /**
