@@ -14,6 +14,11 @@ class EntityEndpointsTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Before each test.
+     *
+     * @return void
+     */
     public function setUp(): void
     {
         parent::setUp();
@@ -33,10 +38,20 @@ class EntityEndpointsTest extends TestCase
     public function testIndex()
     {
         $entities = factory(Entity::class,4)->create();
+        $values = [
+            ["value" => "Riad", "entity_id" => $entities[0]->id, "field_id" => 1],
+            ["value" => "30", "entity_id" => $entities[1]->id, "field_id" => 2],
+            ["value" => "20", "entity_id" => $entities[1]->id, "field_id" => 2]
+        ];
+        Value::insert($values);
 
         $response = $this->get('/api/entities');
         $response->assertStatus(200)
                 ->assertJson($entities->toArray());
+
+        $this->assertEquals(1, Value::where('entity_id', $entities[0]->id )->count());
+        $this->assertEquals(2, Value::where('entity_id', $entities[1]->id )->count());
+        $this->assertEquals(0, Value::where('entity_id', $entities[2]->id )->count());
     }
 
     /**
@@ -55,9 +70,8 @@ class EntityEndpointsTest extends TestCase
 
         $response = $this->get('/api/entities/' . $entity->id );
         $response->assertStatus(200)
+                ->assertJson($entity->toArray())
                 ->assertJson([
-                    "id" => $entity->id,
-                    "entityType" => $entity->entityType,
                     "sbjt_name" => "Riad",
                     "sbjt_age" => "30"
                     ]);
@@ -80,6 +94,7 @@ class EntityEndpointsTest extends TestCase
         $response->assertStatus(201)
                 ->assertJson(['entity' => [ "entityType" => "SUBJECT" ] ]);
 
-        $this->assertEquals(2, Value::where('entity_id', $response->original['entity']['id'] )->count());
+        $createdEntityId = $response->original['entity']['id'];
+        $this->assertEquals(2, Value::where('entity_id', $createdEntityId )->count());
     }
 }

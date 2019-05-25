@@ -14,7 +14,7 @@ use Log;
 //TODO complete this class
 class Entity extends Model {
     public $table = 'Entity';
-    public $timestamps = true;
+    public $timestamps = false;
 
     public $fillable = [ 'entityType' ];
 
@@ -35,6 +35,7 @@ class Entity extends Model {
         //TODO
         $entity = new Entity;
         $entity->entityType = $attributes["entityType"];
+        $entity->timestamps = now();
         $entity->save();
 
         foreach ( $attributes as $key => $value ){
@@ -51,6 +52,9 @@ class Entity extends Model {
 
     }
 
+    /**
+     * Return the entity with all its linked values
+     */
     public function includeValues()
     {
         $this->with('_values._field:id,name');

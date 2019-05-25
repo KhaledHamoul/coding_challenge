@@ -19,7 +19,7 @@ class EntityController extends APIController {
             return $entity->includeValues();
         });
                                                             
-        return $entities; //response()->json($entities,200);
+        return response()->json($entities,200);
     }
 
     /**
