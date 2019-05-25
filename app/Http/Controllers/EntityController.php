@@ -62,8 +62,13 @@ class EntityController extends APIController {
     /**
      * Destroys an entity
      */
-    public function destroy(Request $request, Entity $entity) {
+    public function destroy(Request $request, $entityId) {
         //TODO
+        $entity = self::getRecordById($entityId, Entity::class);
+        $entity->_values()->delete();
+        $entity->delete();
+
+        return response()->json([ 'error' => false ],204);
     }
 
 
