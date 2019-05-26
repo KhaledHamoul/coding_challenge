@@ -23,7 +23,7 @@ class EntityImport implements ToCollection
 
             for( $j = 0; $j < count($rows[0]); $j++) 
             {
-                $attributes[ $rows[0][$j]  ] = $rows[$i][$j];
+                if( $rows[$i][$j] != '') $attributes[ $rows[0][$j]  ] = $rows[$i][$j];
             }
 
             Entity::create($attributes);
