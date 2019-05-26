@@ -4,10 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <title>Coding Challenge</title>
 
         <!-- Styles -->
         <style>
@@ -65,35 +62,46 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+           
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                   <form id="import-form" method="post" action="">
+                        <input type="file" id="file" name="csv-file" />
+                        <input type="submit" value="IMPORT">
+                   </form>
+                </div>
+                <div class="title m-b-md">
+                    <form id="export-form" method="get" action="">
+                        <input type="submit" value="EXPORT">
+                   </form>
                 </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
             </div>
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js" ></script>
+        <script>
+            $('#import-form').on('submit', function(e){
+                e.preventDefault();
+                var formData = new FormData($("#import-form")[0]);
+                $.ajax(
+                    {
+                    url: "http://localhost:8000/api/entities/import", 
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        console.log(data);
+                    }
+                });
+            })
+            
+            $('#export-form').on('submit', function(e){
+                e.preventDefault();
+                window.location = 'http://localhost:8000/api/export/entities';
+            })
+        
+        </script>
     </body>
 </html>

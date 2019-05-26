@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Entity;
 use App\Models\Field;
 
+use App\Exports\EntityExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 use Log;
 
 class EntityController extends APIController {
@@ -60,7 +63,7 @@ class EntityController extends APIController {
     }
 
     /**
-     * Destroys an entity
+     * Destroy an entity
      */
     public function destroy(Request $request, $entityId) {
         //TODO
@@ -69,6 +72,26 @@ class EntityController extends APIController {
         $entity->delete();
 
         return response()->json([ 'error' => false ]);
+    }
+
+    /**
+     * Import entities from CVS file
+     */
+    public function import(Request $request) {
+        
+        Excel::import(new UsersImport, request()->file('csv-file'));
+
+        return response()->json([ 'error' => false ]);
+    }
+
+    /**
+     * Export entities to CVS file
+     */
+    public function export(Request $request) {
+        
+        return Excel::download(new EntityExport, 'entities.csv',\Maatwebsite\Excel\Excel::CSV, [
+            'Content-Type' => 'text/csv',
+        ]);
     }
 
 

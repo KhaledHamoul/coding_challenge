@@ -27,3 +27,7 @@ Route::get('/entities', 'EntityController@index');  //TODO
 Route::get('/entities/{entity}', 'EntityController@show'); //TODO
 Route::post('/entities', 'EntityController@store'); //TODO
 Route::delete('/entities/{entity}', 'EntityController@destroy'); //TODO
+
+Route::post('/import/entities','EntityController@import');
+Route::get('/export/entities','EntityController@export');
+
