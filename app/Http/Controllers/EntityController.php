@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Entity;
 use App\Models\Field;
-
+use App\Models\Value;
 use App\Exports\EntityExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -88,7 +88,7 @@ class EntityController extends APIController {
      * Export entities to CVS file
      */
     public function export(Request $request) {
-        
+    
         return Excel::download(new EntityExport, 'entities.csv',\Maatwebsite\Excel\Excel::CSV, [
             'Content-Type' => 'text/csv',
         ]);
