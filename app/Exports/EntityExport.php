@@ -19,7 +19,8 @@ class EntityExport implements  FromArray
             array_push($data[0],$field->name);
             $values = Value::where('field_id',$field->id)->get()->toArray();
             
-            for( $i = 0; $i < count($values); $i++) {
+            for( $i = 0; $i < count($values); $i++) 
+            {
                 try {
                     array_push($data[$i+1],$values[$i]['value']);
                 } catch (\Throwable $th) {

@@ -86,7 +86,7 @@
                 var formData = new FormData($("#import-form")[0]);
                 $.ajax(
                     {
-                    url: "http://localhost:8000/api/entities/import", 
+                    url: "http://localhost:8000/api/import/entities", 
                     type: 'POST',
                     data: formData,
                     processData: false,

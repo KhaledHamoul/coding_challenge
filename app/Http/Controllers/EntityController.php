@@ -7,6 +7,7 @@ use App\Models\Entity;
 use App\Models\Field;
 use App\Models\Value;
 use App\Exports\EntityExport;
+use App\Imports\EntityImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 use Log;
@@ -79,9 +80,8 @@ class EntityController extends APIController {
      */
     public function import(Request $request) {
         
-        Excel::import(new UsersImport, request()->file('csv-file'));
-
-        return response()->json([ 'error' => false ]);
+        Excel::import(new EntityImport, request()->file('csv-file'));
+        return response()->json([ 'error' => false ],201);
     }
 
     /**
